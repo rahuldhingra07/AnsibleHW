@@ -1,0 +1,25 @@
+---
+- name: Undeploy Apache Web Server
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Stop Apache service
+      service:
+        name: httpd
+        state: stopped
+    
+    - name: Disable Apache service
+      service:
+        name: httpd
+        enabled: no
+    
+    - name: Remove Apache package
+      package:
+        name: httpd
+        state: absent
+    
+    - name: Remove Apache configuration files
+      file:
+        path: /etc/httpd
+        state: absent
+        recurse: yes

@@ -1,0 +1,22 @@
+---
+- name: Deploy Apache web server
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start and enable Apache service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Ensure the index.html file exists
+      copy:
+        content: "Hello World from SJSU-{{ inventory_hostname_short }}"
+        dest: /var/www/html/index.html
+        mode: '0644'
